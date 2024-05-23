@@ -1,43 +1,57 @@
-import { nanoid } from 'nanoid'; // генерує унікальні id
-import { useDispatch, useSelector } from 'react-redux'; // отримуємо доступ до стору
-import { toast } from 'react-toastify'; // пакет для повідомлень
+// ContactForm.jsx
+
+// Importuje nanoid z biblioteki nanoid do generowania unikalnych identyfikatorów
+import { nanoid } from 'nanoid';
+// Importuje useDispatch i useSelector z react-redux do uzyskiwania dostępu do stanu i wysyłania akcji
+import { useDispatch, useSelector } from 'react-redux';
+// Importuje toast z react-toastify do wyświetlania powiadomień
+import { toast } from 'react-toastify';
+// Importuje akcję addContact z pliku operations w redux
 import { addContact } from '../../redux/operations';
+// Importuje selektor selectContacts z pliku selectors w redux
 import { selectContacts } from '../../redux/selectors';
+// Importuje stylizowane komponenty Form, Input, Label i SubmitButton z pliku ContactForm.styled
 import { Form, Input, Label, SubmitButton } from './ContactForm.styled';
 
+// Definiuje komponent ContactForm
 export const ContactForm = () => {
-  const dispatch = useDispatch(); // для діспатча екшенів
-  const contacts = useSelector(selectContacts); // отримуємо доступ до стору
+  const dispatch = useDispatch(); // Hook useDispatch do wysyłania akcji
+  const contacts = useSelector(selectContacts); // Hook useSelector do pobierania kontaktów ze stanu
 
+  // Funkcja obsługująca zdarzenie submit formularza
   const handleSubmit = event => {
-    event.preventDefault(); // відміняємо стандартну поведінку браузера
+    event.preventDefault(); // Zapobiega domyślnej akcji przeglądarki
 
+    // Tworzy nowy kontakt z unikalnym ID, nazwą i numerem telefonu
     const contact = {
       id: nanoid(),
       name: event.currentTarget.elements.name.value,
       number: event.currentTarget.elements.number.value,
     };
 
-    // Перевірка на дублікати
+    // Sprawdza, czy kontakt o takiej samej nazwie już istnieje
     const isExist = contacts.find(
       ({ name }) => name.toLowerCase() === contact.name.toLowerCase()
     );
 
-    // Якщо контакт вже існує, то виводимо повідомлення
+    // Jeśli kontakt już istnieje, wyświetla ostrzeżenie
     if (isExist) {
       return toast.warn(`${contact.name} is already in contacts.`);
     }
 
-    dispatch(addContact(contact)); // діспатчимо екшен
-    event.currentTarget.reset(); // очищаємо форму
+    // Wysyła akcję dodania kontaktu
+    dispatch(addContact(contact));
+    event.currentTarget.reset(); // Resetuje formularz
   };
 
   return (
+    // Formularz z obsługą zdarzenia submit
     <Form onSubmit={handleSubmit}>
       {' '}
-      {/* відправляємо дані з форми */}
+      {/* Formularz do wprowadzania danych */}
       <Label htmlFor={nanoid()}>
         Name
+        {/* Pole tekstowe do wprowadzania nazwy */}
         <Input
           type="text"
           name="name"
@@ -49,6 +63,7 @@ export const ContactForm = () => {
       </Label>
       <Label htmlFor={nanoid()}>
         Number
+        {/* Pole tekstowe do wprowadzania numeru telefonu */}
         <Input
           type="tel"
           name="number"
@@ -58,9 +73,8 @@ export const ContactForm = () => {
           required
         />
       </Label>
+      {/* Przycisk do wysłania formularza */}
       <SubmitButton type="submit">Add contact</SubmitButton>
     </Form>
   );
 };
-
-// Діма Берестень
