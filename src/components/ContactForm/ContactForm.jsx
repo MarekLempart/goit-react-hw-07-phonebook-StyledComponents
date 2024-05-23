@@ -47,7 +47,6 @@ export const ContactForm = () => {
   return (
     // Formularz z obsługą zdarzenia submit
     <Form onSubmit={handleSubmit}>
-      {' '}
       {/* Formularz do wprowadzania danych */}
       <Label htmlFor={nanoid()}>
         Name

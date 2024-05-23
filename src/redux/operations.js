@@ -6,7 +6,7 @@ import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 // Ustawiamy bazowy URL dla wszystkich żądań axios
-axios.defaults.baseURL = 'https://664f3485fafad45dfae2ccde.mockapi.io'; // osobisty mock-serwer
+axios.defaults.baseURL = 'https://664f8b2cec9b4a4a602f2839.mockapi.io'; // osobisty mock-serwer
 
 // Definiujemy asynchroniczną akcję do pobierania kontaktów
 export const fetchContacts = createAsyncThunk(
